@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>น้ำยาทำความสะอาด - CleanKitchenPro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    /* CSS เดิมของคุณ */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Prompt', sans-serif;
+    }
+    body {
+      background: #e0f7fa; /* เปลี่ยนสีพื้นหลังเล็กน้อยเพื่อให้ดูทันสมัยขึ้น */
+      color: #222;
+      line-height: 1.6;
+      padding: 0; /* ลบ padding ออกเพื่อให้ขยายเต็มหน้าจอ */
+      /* max-width: 1000px; ลบออกเพื่อให้เนื้อหาขยายเต็มหน้าจอ */
+      margin: 0; /* ลบ margin ออก */
+      display: flex; /* ใช้ flexbox เพื่อจัดโครงสร้างหน้าเว็บหลัก */
+      flex-direction: column;
+      min-height: 100vh; /* ทำให้ body มีความสูงอย่างน้อยเท่ากับ viewport */
+    }
+
+    header {
+      background-color: #000;
+      padding: 2rem 1rem;
+      text-align: center;
+      color: white;
+      /* border-radius: 8px; */ /* ลบ border-radius ออกสำหรับ header ที่จะขยายเต็มหน้ากว้าง */
+      margin-bottom: 2rem;
+      width: 100%; /* ทำให้ header เต็มความกว้าง */
+    }
+    header h1 {
+      font-weight: 600;
+      font-size: 2.5rem;
+      letter-spacing: 1.5px;
+      max-width: 1000px; /* จำกัดความกว้างของ h1 ให้อยู่ตรงกลาง */
+      margin: 0 auto;
+    }
+
+    nav {
+      margin-bottom: 2rem;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      background-color: #f8f8f8; /* เพิ่มพื้นหลังให้ nav เพื่อความชัดเจน */
+      padding: 1rem 1rem; /* เพิ่ม padding ให้ nav */
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* เพิ่มเงาเล็กน้อย */
+    }
+    nav a {
+      color: #0077cc;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+      padding: 8px 12px;
+      border: 2px solid transparent;
+      border-radius: 5px;
+      white-space: nowrap;
+    }
+    nav a:hover {
+      color: #004a99;
+      background-color: #e0f2ff;
+      border-color: #0077cc;
+      transform: translateY(-2px);
+    }
+    nav a:active {
+        background-color: #cce7ff;
+        border-color: #004a99;
+        transform: translateY(0);
+    }
+    nav a.active-link {
+      font-weight: 700;
+      color: #fff;
+      background-color: #d32f2f;
+      border-color: #a02121;
+    }
+
+    /* --- ส่วน Content หลักของหน้าเว็บ --- */
+    .main-content-wrapper {
+      flex-grow: 1; /* ทำให้ส่วนนี้ขยายเต็มพื้นที่ที่เหลือใน body */
+      max-width: 1200px; /* เพิ่ม max-width ให้เนื้อหาหลักกว้างขึ้น */
+      margin: 0 auto; /* จัดให้อยู่ตรงกลาง */
+      padding: 1rem; /* เพิ่ม padding ให้เนื้อหาด้านใน */
+      width: 100%; /* ใช้ความกว้างเต็มที่ของ max-width */
+    }
+
+    h2 {
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+      text-align: center;
+      color: #000;
+    }
+    .products-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      justify-content: flex-start;
+      width: 100%;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    /* ปรับขนาดการ์ดให้เล็กลงเพื่อให้ลง 5 ชิ้นต่อแถว */
+    .product-card {
+      flex: 0 1 calc(20% - 1.2rem);
+      margin-bottom: 1.5rem;
+      box-sizing: border-box;
+      /* ลบ min-width และ max-width ออก */
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      transition: transform 0.25s ease;
+      background: #fefefe;
+      display: flex;
+      flex-direction: column;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    .product-image-slider {
+      width: 100%;
+      height: 180px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+    .slider-img {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+    .slider-img.active {
+      opacity: 1;
+      z-index: 1;
+    }
+    .product-info {
+      padding: 1rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .product-title {
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: #004a99;
+    }
+    .product-desc {
+      font-size: 0.95rem;
+      color: #555;
+      flex-grow: 1;
+      margin-bottom: 1rem;
+    }
+    .price-wrapper {
+      margin-bottom: 1rem;
+    }
+    .price {
+      font-weight: 700;
+      color: #d32f2f;
+      font-size: 1.2rem;
+    }
+    .old-price {
+      text-decoration: line-through;
+      color: #999;
+      margin-left: 0.6rem;
+      font-weight: 500;
+      font-size: 1rem;
+    }
+    .actions {
+      display: flex;
+      gap: 0.8rem;
+      justify-content: center;
+    }
+    .actions button {
+      flex: 1;
+      padding: 0.5rem 0;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-size: 1rem;
+    }
+    .btn-cart {
+      background-color: #0077cc;
+      color: white;
+    }
+    .btn-cart:hover {
+      background-color: #005999;
+    }
+    .btn-buy {
+      background-color: #d32f2f;
+      color: white;
+    }
+    .btn-buy:hover {
+      background-color: #a02121;
+    }
+    footer {
+      text-align: center;
+      margin-top: 3rem; /* ใช้ margin-top แทน margin 3rem 0 1rem */
+      padding: 1.5rem 1rem; /* เพิ่ม padding ให้ footer */
+      background-color: #333; /* สีพื้นหลัง footer */
+      color: #eee; /* สีตัวอักษร footer */
+      font-size: 0.9rem;
+      width: 100%; /* ทำให้ footer เต็มความกว้าง */
+    }
+    @media (max-width: 1100px) {
+      .product-card {
+        flex: 0 1 28%;
+        min-width: 180px;
+        max-width: 220px;
+      }
+    }
+    @media (max-width: 800px) {
+      .product-card {
+        flex: 0 1 45%;
+        min-width: 180px;
+        max-width: 100%;
+      }
+    }
+    @media (max-width: 600px) {
+      .products-list {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.2rem;
+      }
+      .product-card {
+        flex: 1 1 100%;
+        width: 90%;
+        min-width: unset;
+        max-width: unset;
+      }
+      nav {
+        flex-direction: column;
+        align-items: center;
+      }
+      nav a {
+        margin: 5px 0;
+      }
+    }
+
+    /* --- CSS สำหรับ Notification Bar --- */
+    .cart-notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #4CAF50;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-50px);
+      transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .cart-notification.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .cart-notification .icon {
+        font-size: 1.5rem;
+    }
+    .cart-notification p {
+        margin: 0;
+        font-weight: 500;
+    }
+
+    /* --- CSS ใหม่สำหรับ Cart Overlay --- */
+    .cart-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .cart-overlay.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .cart-modal {
+        background-color: #fff;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        width: 90%;
+        max-width: 500px;
+        transform: translateY(-20px);
+        transition: transform 0.3s ease;
+        position: relative;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+    .cart-overlay.show .cart-modal {
+        transform: translateY(0);
+    }
+
+    .cart-modal h3 {
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-size: 1.8rem;
+        color: #004a99;
+        text-align: center;
+    }
+
+    #cartItemsList {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 20px;
+    }
+
+    #cartItemsList li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px dashed #eee;
+    }
+    #cartItemsList li:last-child {
+        border-bottom: none;
+    }
+
+    #cartItemsList li .item-details {
+        font-weight: 600;
+        color: #333;
+        flex-grow: 1;
+    }
+    #cartItemsList li .item-price {
+        font-weight: 700;
+        color: #d32f2f;
+        margin-left: 15px;
+        white-space: nowrap;
+    }
+    .remove-item-btn {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        margin-left: 15px;
+        transition: background-color 0.2s ease;
+    }
+    .remove-item-btn:hover {
+        background-color: #c82333;
+    }
+
+    .cart-summary {
+        text-align: right;
+        margin-top: 20px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #000;
+    }
+
+    .cart-modal .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .cart-modal .modal-actions button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-close-modal {
+        background-color: #6c757d;
+        color: white;
+    }
+    .btn-close-modal:hover {
+        background-color: #5a6268;
+    }
+
+    .btn-checkout {
+        background-color: #007bff;
+        color: white;
+    }
+    .btn-checkout:hover {
+        background-color: #0056b3;
+    }
+
+    /* --- CSS สำหรับ Image Modal --- */
+    .image-modal {
+      position: fixed;
+      z-index: 3000;
+      left: 0; top: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.7);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .image-modal-content {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      position: relative;
+      max-width: 95vw;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .close-image-modal {
+      position: absolute;
+      top: 10px; right: 18px;
+      font-size: 2rem;
+      color: #333;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .modal-main-img {
+      width: 320px;
+      height: 320px;
+      object-fit: contain;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      background: #f8f8f8;
+    }
+    .modal-thumbnails {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .modal-thumb {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 2px solid #eee;
+      cursor: pointer;
+      transition: border 0.2s;
+    }
+    .modal-thumb.selected,
+    .modal-thumb:hover {
+      border: 2px solid #0077cc;
+    }
+    @media (max-width: 600px) {
+      .modal-main-img { width: 90vw; height: 40vw; }
+      .modal-thumb { width: 18vw; height: 18vw; }
+    }
+
+    .product-img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto;
+  border-radius: 8px;
+  background: #f8f8f8;
+}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>น้ำยาทำความสะอาด</h1>
+  </header>
+
+  <nav>
+    <a href="D:\xibP\index.html">Home</a>
+    <a href="D:\xibP\Cleanser.html">น้ำยาทำความสะอาด</a>
+    <a href="D:\xibP\polishing.html">อุปกรณ์ขัดถู</a>
+    <a href="D:\xibP\Kitchen towel.html">ผ้าเช็ด / กระดาษ</a>
+    <a href="D:\xibP\pong.html">อุปกรณ์ป้องกัน</a>
+    <a href="#" id="viewCartLink">ตะกร้าสินค้า (<span id="cartItemCount">0</span>)</a>
+    <a href="D:\xibP\login.html">ติดต่อเรา</a>
+  </nav>
+
+  <div id="cartNotification" class="cart-notification">
+    <span class="icon">🛒</span>
+    <p id="notificationMessage"></p>
+  </div>
+
+  <div id="cartOverlay" class="cart-overlay">
+    <div class="cart-modal">
+      <h3>ตะกร้าสินค้าของคุณ</h3>
+      <ul id="cartItemsList">
+        </ul>
+      <div class="cart-summary">
+        ยอดรวม: <span id="cartTotal">฿0</span>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-close-modal" id="closeCartModal">ปิด</button>
+        <button class="btn-checkout">ดำเนินการชำระเงิน</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="imageModal" class="image-modal" style="display:none;">
+    <div class="image-modal-content">
+      <span id="closeImageModal" class="close-image-modal">&times;</span>
+      <img id="mainModalImg" src="" alt="รูปสินค้า" class="modal-main-img">
+      <div class="modal-thumbnails">
+        <img src="" class="modal-thumb" alt="thumb1">
+        <img src="" class="modal-thumb" alt="thumb2">
+        <img src="" class="modal-thumb" alt="thumb3">
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal สำหรับกรอกข้อมูลชำระเงิน -->
+<div id="checkoutModal" class="image-modal" style="display:none;">
+  <div class="image-modal-content" style="max-width:400px;">
+    <span id="closeCheckoutModal" class="close-image-modal">&times;</span>
+    <h3 style="margin-bottom:1rem;">ข้อมูลสำหรับจัดส่ง</h3>
+    <form id="checkoutForm">
+      <input type="text" id="checkoutName" placeholder="ชื่อ-นามสกุล" required style="width:100%;margin-bottom:1rem;padding:0.7rem;">
+      <input type="text" id="checkoutAddress" placeholder="ที่อยู่สำหรับจัดส่ง" required style="width:100%;margin-bottom:1rem;padding:0.7rem;">
+      <input type="tel" id="checkoutPhone" placeholder="เบอร์โทรศัพท์" required style="width:100%;margin-bottom:1.5rem;padding:0.7rem;">
+      <button type="submit" style="width:100%;padding:0.8rem;background:#007bff;color:#fff;border:none;border-radius:6px;font-size:1.1rem;font-weight:600;cursor:pointer;">ยืนยันการสั่งซื้อ</button>
+    </form>
+    <div id="checkoutSuccess" style="display:none;text-align:center;margin-top:1.5rem;font-size:1.1rem;color:#007bff;"></div>
+  </div>
+</div>
+
+  <div class="main-content-wrapper">
+    <h2>ผลิตภัณฑ์น้ำยาทำความสะอาดคุณภาพ</h2>
+    <p style="text-align:center; color:#444; margin-bottom:2rem;">
+      พบกับน้ำยาทำความสะอาดสำหรับครัวเรือนและร้านอาหาร ที่ช่วยขจัดคราบสกปรก กลิ่นไม่พึงประสงค์ และฆ่าเชื้อโรคได้อย่างมีประสิทธิภาพ เหมาะสำหรับทุกพื้นผิวในครัวของคุณ
+    </p>
+    <div class="products-list">
+
+      <div class="product-card">
+        <img
+          src="\D:\xibP\Cleanser\sun.png"
+          class="product-img"
+          alt="KU PRO 1"
+          data-images='[
+            "https://www.makro.pro/_next/image?url=https%3A%2F%2Fimages.mango-prod.siammakro.cloud%2FSOURCE%2Fd8969946dee246d3bac95f8c0ec3745c&w=1080&q=75",
+            "https://www.makro.pro/_next/image?url=https%3A%2F%2Fimages.mango-prod.siammakro.cloud%2FSOURCE%2F83cb93bba7a346ce9ebdaa09d44ea6ad&w=1080&q=75",
+            "https://www.makro.pro/_next/image?url=https%3A%2F%2Fimages.mango-prod.siammakro.cloud%2FSOURCE%2F03a2f12447e4462b9fb51f69455013d5&w=1080&q=75"
+          ]'
+        >
+        <div class="product-info">
+          <h3 class="product-title">น้ำยาล้างจาน</h3>
+          <p class="product-desc">ทำความสะอาดภาชนะ จาน ชาม ขจัดคราบอาหารและไขมัน</p>
+          <div class="price-wrapper">
+            <span class="price">฿60</span>
+            <span class="old-price">฿100</span>
+          </div>
+          <div class="actions">
+            <button class="btn-cart">เพิ่มลงตะกร้า</button>
+            <!-- <button class="btn-buy">ซื้อเลย</button> -->
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <img src="D:\xibP\Cleanser\ro.png" class="product-img" alt="PRO CLEAN 1"
+        alt="KU PRO 1"
+          data-images='[
+            "https://www.makro.pro/_next/image?url=https%3A%2F%2Fimages.mango-prod.siammakro.cloud%2Fproduct-images%2F7497618096323-03f3560f-a8c4-4d81-8e60-847067521b05.jpeg&w=1080&q=75",
+            "https://www.makro.pro/_next/image?url=https%3A%2F%2Fimages.mango-prod.siammakro.cloud%2Fproduct-images%2F7497618096323-44c5d966-2f2a-431e-a57a-75a5322df105.jpeg&w=1080&q=75",
+            "https://www.makro.pro/_next/image?url=https%3A%2F%2Fimages.mango-prod.siammakro.cloud%2Fproduct-images%2F7497618096323-88486d04-dcbd-4615-90a0-822c3e9f58df.jpeg&w=1080&q=75"
+          ]'>
+        
+        <div class="product-info">
+          <h3 class="product-title">น้ำยาขจัดคราบครัว</h3>
+          <p class="product-desc">ขจัดคราบไขมัน คราบเหนียวบนเตา ผนังครัว และเคาน์เตอร์</p>
+          <div class="price-wrapper">
+            <span class="price">฿80</span>
+            <span class="old-price">฿110</span>
+          </div>
+          <div class="actions">
+            <button class="btn-cart">เพิ่มลงตะกร้า</button>
+            <!-- <button class="btn-buy">ซื้อเลย</button> -->
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <img src="D:\xibP\Cleanser\k.png" class="product-img" alt="KU SAFE 1"
+        alt="KU PRO 1"
+          data-images='[
+            "https://media.allonline.7eleven.co.th/pdzoom/372230_01_Magicclean.jpg",
+            "https://assets.tops.co.th/WINDEX-WindexGlassCleaner520ml-8850175007012-3",
+            "https://assets.tops.co.th/WINDEX-WindexGlassCleaner520ml-8850175007012-5"
+          ]'>
+        <div class="product-info">
+          <h3 class="product-title">น้ำยาเช็ดเคาน์เตอร์</h3>
+          <p class="product-desc">ทำความสะอาดและฆ่าเชื้อบนพื้นผิวเคาน์เตอร์ทั่วไปในครัว</p>
+          <div class="price-wrapper">
+            <span class="price">฿150</span>
+            <span class="old-price">฿180</span>
+          </div>
+          <div class="actions">
+            <button class="btn-cart">เพิ่มลงตะกร้า</button>
+            <!-- <button class="btn-buy">ซื้อเลย</button> -->
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="product-card">
+        <img src="D:\xibP\Cleanser\c.png" class="product-img" alt="GOLD CLEAN 1"
+        alt="KU PRO 1"
+          data-images='[
+            "https://f.lnwfile.com/_/f/_raw/sr/kg/6n.png",
+            "https://www.eve.co.th/uploads/product/l/22_549.jpg",
+            "https://down-th.img.susercontent.com/file/th-11134207-7r98z-lq7lycyszmze26.webp"
+          ]'>
+        <div class="product-info">
+          <h3 class="product-title">น้ำยาทำความสะอาดเตาอบ/เตาแก๊ส</h3>
+          <p class="product-desc">สูตรเข้มข้นสำหรับคราบฝังแน่น กลิ่นหอมสดชื่น</p>
+          <div class="price-wrapper">
+            <span class="price">฿199</span>
+            <span class="old-price">฿250</span>
+          </div>
+          <div class="actions">
+            <button class="btn-cart">เพิ่มลงตะกร้า</button>
+            <!-- <button class="btn-buy">ซื้อเลย</button> -->
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <img src="D:\xibP\Cleanser\d.png" class="product-img" alt="GOLD CLEAN 1"
+        alt="KU PRO 1"
+          data-images='[
+            "https://www.dettolthailand.com/static/fe755f3dd24952fa111cdfed5c817d67/0d4d2/al_125ml.png",
+            "http://innovapack.co.th/wp-content/uploads/2020/08/Benzion_of-Medical-Devices_1L_F-S.png",
+            "https://medias.watsons.co.th/publishing/WTCTH-286171-front-zoom.jpg?version=1733739353"
+          ]'>
+        <div class="product-info">
+          <h3 class="product-title">น้ำยาฆ่าเชื้อ</h3>
+          <p class="product-desc">ฆ่าเชื้อโรคและแบคทีเรียบนพื้นผิวต่างๆ ในครัวและบ้าน</p>
+          <div class="price-wrapper">
+            <span class="price">฿199</span>
+            <span class="old-price">฿250</span>
+          </div>
+          <div class="actions">
+            <button class="btn-cart">เพิ่มลงตะกร้า</button>
+            <!-- <button class="btn-buy">ซื้อเลย</button> -->
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <img src="D:\xibP\Cleanser\f.png" class="product-img" alt="GOLD CLEAN 1"
+        alt="KU PRO 1"
+          data-images='[
+            "https://shop-image.readyplanet.com/bK-FmR3YtfaGwv8-AsTpIv2sOSY=/a5d902600ac847a5afc53ceb1e3f3197",
+            "https://image.makewebeasy.net/makeweb/m_1920x0/OmdeorHQh/3M/%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%A2%E0%B8%B2%E0%B8%97%E0%B8%B3%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%AA%E0%B8%B0%E0%B8%AD%E0%B8%B2%E0%B8%94_%E0%B9%80%E0%B8%84%E0%B8%A5%E0%B8%B7%E0%B8%AD%E0%B8%9A%E0%B9%80%E0%B8%A1%E0%B8%87%E0%B8%B2%E0%B8%9E%E0%B8%B7%E0%B9%88%E0%B8%99%E0%B8%9C%E0%B8%B4%E0%B8%A7%E0%B8%AA%E0%B9%80%E0%B8%95%E0%B8%99%E0%B9%80%E0%B8%A5%E0%B8%AA_3M.webp?v=202405291424",
+            "https://image.makewebeasy.net/makeweb/m_1920x0/yQnT4gsUF/3M/3M_.webp?v=202405291424"
+          ]'>
+        <div class="product-info">
+          <h3 class="product-title">น้ำยาทำความสะอาดพื้นผิวสเตนเลส</h3>
+          <p class="product-desc">ทำความสะอาด คืนความเงา และลดรอยนิ้วมือบนสเตนเลส</p>
+          <div class="price-wrapper">
+            <span class="price">฿120</span>
+            <span class="old-price">฿250</span>
+          </div>
+          <div class="actions">
+            <button class="btn-cart">เพิ่มลงตะกร้า</button>
+            <!-- <button class="btn-buy">ซื้อเลย</button> -->
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <img src="D:\xibP\Cleanser\b.png" class="product-img" alt="GOLD CLEAN 1"
+        alt="KU PRO 1"
+          data-images='[
+            "https://www.sbdishwasher.com/wp-content/uploads/2017/07/0007_dee-scale-1.jpg",
+            "https://co.lnwfile.com/_/co/_raw/gb/tr/dj.jpg",
+            "https://itp1.itopfile.com/ImageServer/51a30e6842af0439/374/0/5z-z431300815465.webp"
+          ]'>
+        <div class="product-info">
+          <h3 class="product-title">น้ำยาขจัดคราบตะกรัน</h3>
+          <p class="product-desc">ขจัดคราบหินปูน ตะกรันจากน้ำที่เกาะตามก๊อกน้ำ ฝักบัว</p>
+          <div class="price-wrapper">
+            <span class="price">฿69</span>
+            <span class="old-price">฿99</span>
+          </div>
+          <div class="actions">
+            <button class="btn-cart">เพิ่มลงตะกร้า</button>
+            <!-- <button class="btn-buy">ซื้อเลย</button> -->
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <img src="D:\xibP\Cleanser\j.png" class="product-img" alt="GOLD CLEAN 1"
+          data-images='[
+            "https://down-th.img.susercontent.com/file/sg-11134201-7rdx4-ly4k4da7of2oa6.webp",
+            "https://down-th.img.susercontent.com/file/sg-11134201-7rd57-lwdy8b3n6xtn6d.webp",
+            "https://down-th.img.susercontent.com/file/sg-11134201-7rd3x-lwdy8c5dnpq988.webp"
+          ]'>
+        <div class="product-info">
+          <h3 class="product-title">น้ำยาทำความสะอาดท่อระบายน้ำ </h3>
+          <p class="product-desc">กำจัดสิ่งอุดตันในท่อระบายน้ำ เช่น ผม เศษอาหาร ไขมัน</p>
+          <div class="price-wrapper">
+            <span class="price">฿125</span>
+            <span class="old-price">฿250</span>
+          </div>
+          <div class="actions">
+            <button class="btn-cart">เพิ่มลงตะกร้า</button>
+            <!-- <button class="btn-buy">ซื้อเลย</button> -->
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <img src="D:\xibP\Cleanser\h.png" class="product-img" alt="KITCHEN FRESH 1"
+        alt="KU PRO 1"
+          data-images='[
+            "https://www.eve.co.th/uploads/product/l/22_555.jpg",
+            "https://cdn.hg.eu/media/3lxeuxfk/482012106-main.png?width=536&height=536&v=1db08968a6d5820",
+            "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1696952574-41izHTuRzOL.jpg?crop=1xw:1.00xh;center,top&resize=980:*"
+          ]'>
+        <div class="product-info">
+          <h3 class="product-title">น้ำยาทำความสะอาดเครื่องดูดควัน</h3>
+          <p class="product-desc">ขจัดคราบไขมันเหนียวแน่นบนเครื่องดูดควันโดยเฉพาะ</p>
+          <div class="price-wrapper">
+            <span class="price">฿135</span>
+            <span class="old-price">฿150</span>
+          </div>
+          <div class="actions">
+            <button class="btn-cart">เพิ่มลงตะกร้า</button>
+            <!-- <button class="btn-buy">ซื้อเลย</button> -->
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <img src="D:\xibP\Cleanser\i.png" class="product-img" alt="DEEP CLEAN 1"
+        alt="KU PRO 1"
+          data-images='[
+            "https://img.lazcdn.com/g/p/0562147e78a6be3ef42d488f551955cd.jpg_720x720q80.jpg_.webp",
+            "https://img.lazcdn.com/g/p/0562147e78a6be3ef42d488f551955cd.jpg_720x720q80.jpg_.webp",
+            "https://img.lazcdn.com/g/p/0562147e78a6be3ef42d488f551955cd.jpg_720x720q80.jpg_.webp"
+          ]'>
+        <div class="product-info">
+          <h3 class="product-title">น้ำยาทำความสะอาดเครื่องล้างจาน</h3>
+          <p class="product-desc">ทำความสะอาดภายในเครื่องล้างจาน ขจัดคราบและกลิ่น</p>
+          <div class="price-wrapper">
+            <span class="price">฿65</span>
+            <span class="old-price">฿189</span>
+          </div>
+          <div class="actions">
+            <button class="btn-cart">เพิ่มลงตะกร้า</button>
+            <!-- <button class="btn-buy">ซื้อเลย</button> -->
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div> <footer>
+    &copy; 2025 CleanKitchenPro. สงวนลิขสิทธิ์
+  </footer>
+
+  <script>
+    // JavaScript เดิมสำหรับ Slider รูปภาพ
+    document.querySelectorAll('.product-image-slider').forEach(slider => {
+      const images = slider.querySelectorAll('.slider-img');
+      let current = 0;
+      let intervalId; 
+
+      function startSlider() {
+        intervalId = setInterval(() => {
+          images[current].classList.remove('active');
+          current = (current + 1) % images.length;
+          images[current].classList.add('active');
+        }, 3000); 
+      }
+
+      function stopSlider() {
+        clearInterval(intervalId); 
+      }
+
+      slider.addEventListener('mouseenter', stopSlider);
+      slider.addEventListener('mouseleave', startSlider);
+
+      startSlider(); 
+    });
+
+    // JavaScript สำหรับปุ่ม 'ซื้อเลย' (เชื่อมไปหน้า payment.html)
+    document.querySelectorAll('.btn-buy').forEach(button => {
+      button.addEventListener('click', () => {
+        window.location.href = 'payment.html';
+      });
+    });
+
+    // --- ส่วน JavaScript ใหม่ทั้งหมดสำหรับตะกร้าสินค้า ---
+    const cartNotification = document.getElementById('cartNotification');
+    const notificationMessage = document.getElementById('notificationMessage');
+    const cartItemCount = document.getElementById('cartItemCount');
+    const cartOverlay = document.getElementById('cartOverlay');
+    const cartItemsList = document.getElementById('cartItemsList');
+    const cartTotal = document.getElementById('cartTotal');
+    const closeCartModalBtn = document.getElementById('closeCartModal');
+    const viewCartLink = document.getElementById('viewCartLink');
+
+    let hideNotificationTimeout; // สำหรับเก็บ timeout เพื่อซ่อน notification
+
+    // ฟังก์ชันสำหรับโหลดสินค้าจาก LocalStorage
+    function loadCartFromLocalStorage() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        return cart;
+    }
+
+    // ฟังก์ชันสำหรับบันทึกสินค้าลง LocalStorage
+    function saveCartToLocalStorage(cart) {
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    // ฟังก์ชันสำหรับลบสินค้าออกจากตะกร้า
+    function removeItemFromCart(productName) {
+        let cart = loadCartFromLocalStorage();
+        cart = cart.filter(item => item.name !== productName); // กรองสินค้าที่ไม่ต้องการออก
+        saveCartToLocalStorage(cart);
+        updateCartUI(); // อัปเดต UI หลังจากลบ
+    }
+
+    // ฟังก์ชันสำหรับอัปเดต UI ของตะกร้า (จำนวนสินค้า, รายการ, ยอดรวม)
+    function updateCartUI() {
+        const cart = loadCartFromLocalStorage();
+        let total = 0;
+        cartItemsList.innerHTML = ''; // ล้างรายการเก่าออกไปก่อน
+
+        if (cart.length === 0) {
+            cartItemsList.innerHTML = '<li>ไม่มีสินค้าในตะกร้า</li>';
+        } else {
+            cart.forEach(item => {
+                const li = document.createElement('li');
+                // แยกตัวเลขออกจาก string ราคา (เช่น "฿320" -> 320)
+                const priceValue = parseFloat(item.price.replace('฿', '')); 
+                const itemTotal = priceValue * item.quantity;
+                total += itemTotal;
+
+                li.innerHTML = `
+                    <span class="item-details">${item.name} (x${item.quantity})</span>
+                    <span class="item-price">฿${itemTotal.toFixed(2)}</span>
+                    <button class="remove-item-btn" data-product-name="${item.name}">ลบ</button>
+                `;
+                cartItemsList.appendChild(li);
+            });
+            // เพิ่ม Event Listener ให้กับปุ่มลบทุกปุ่ม
+            document.querySelectorAll('.remove-item-btn').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const productNameToRemove = event.target.dataset.productName;
+                    removeItemFromCart(productNameToRemove);
+                });
+            });
+        }
+        
+        cartItemCount.textContent = cart.length; // อัปเดตจำนวนสินค้าที่ลิงก์ตะกร้า
+        cartTotal.textContent = `฿${total.toFixed(2)}`; // อัปเดตยอดรวม
+
+        // ไม่จำเป็นต้อง saveCartToLocalStorage(cart) ที่นี่อีก เพราะมีการเรียกใน removeItemFromCart
+        // และเมื่อเพิ่มสินค้าก็มีการ save อยู่แล้ว
+    }
+
+    // เมื่อคลิกปุ่ม 'เพิ่มลงตะกร้า'
+    document.querySelectorAll('.btn-cart').forEach(button => {
+        button.addEventListener('click', (event) => {
+            const productCard = event.target.closest('.product-card');
+            const productName = productCard.querySelector('.product-title').textContent;
+            const productPrice = productCard.querySelector('.price').textContent; // เช่น "฿320"
+
+            let cart = loadCartFromLocalStorage();
+
+            // ตรวจสอบว่าสินค้านี้มีในตะกร้าแล้วหรือยัง
+            const existingItemIndex = cart.findIndex(item => item.name === productName);
+
+            if (existingItemIndex > -1) {
+                // ถ้ามีอยู่แล้ว ให้เพิ่มจำนวน
+                cart[existingItemIndex].quantity += 1;
+            } else {
+                // ถ้ายังไม่มี ให้เพิ่มสินค้าใหม่
+                cart.push({ name: productName, price: productPrice, quantity: 1 });
+            }
+
+            saveCartToLocalStorage(cart); // บันทึกตะกร้าที่อัปเดตแล้ว
+            updateCartUI(); // อัปเดต UI
+
+            // แสดง Notification Bar
+            notificationMessage.textContent = `คุณได้เพิ่ม "${productName}" ลงในตะกร้าแล้ว!`;
+            cartNotification.classList.add('show');
+            clearTimeout(hideNotificationTimeout); 
+            hideNotificationTimeout = setTimeout(() => {
+                cartNotification.classList.remove('show');
+            }, 3000);
+        });
+    });
+
+    // เมื่อคลิกลิงก์ 'ตะกร้าสินค้า' ใน Navbar
+    viewCartLink.addEventListener('click', (event) => {
+        event.preventDefault(); // ป้องกันการลิงก์ไปหน้าอื่น
+        updateCartUI(); // อัปเดตรายการสินค้าใน Modal ก่อนแสดง
+        cartOverlay.classList.add('show'); // แสดง Cart Overlay
+    });
+
+    // เมื่อคลิกปุ่ม 'ปิด' ใน Modal หรือคลิกนอก Modal
+    closeCartModalBtn.addEventListener('click', () => {
+        cartOverlay.classList.remove('show');
+    });
+
+    cartOverlay.addEventListener('click', (event) => {
+        // ถ้าคลิกที่พื้นหลัง overlay แต่ไม่ใช่ภายใน modal
+        if (event.target === cartOverlay) {
+            cartOverlay.classList.remove('show');
+        }
+    });
+
+    // โหลดและอัปเดตตะกร้าเมื่อโหลดหน้าเว็บครั้งแรก
+    document.addEventListener('DOMContentLoaded', updateCartUI);
+
+    // JavaScript สำหรับ Active Link ใน Navbar
+    document.addEventListener('DOMContentLoaded', () => {
+      const navLinks = document.querySelectorAll('nav a');
+      const currentPath = window.location.pathname.split('/').pop().toLowerCase();
+
+      navLinks.forEach(link => {
+        // ลบ class active-link เดิมออกทั้งหมดก่อน
+        link.classList.remove('active-link');
+        // ตรวจสอบว่า href ของลิงก์ตรงกับชื่อไฟล์ปัจจุบันหรือไม่ (ไม่สนใจตัวพิมพ์เล็ก/ใหญ่)
+        if (link.getAttribute('href').toLowerCase() === currentPath) {
+          link.classList.add('active-link');
+        } else if ((currentPath === '' || currentPath === 'index.html') && link.getAttribute('href').toLowerCase() === 'index.html') {
+          // กรณีที่เป็นหน้า index.html แต่ pathName ว่างเปล่า (เช่นเข้าเว็บตรงๆ)
+          link.classList.add('active-link');
+        }
+      });
+    });
+
+    // --- ส่วน JavaScript สำหรับ Image Modal ---
+    const imageModal = document.getElementById('imageModal');
+    const closeImageModal = document.getElementById('closeImageModal');
+    const mainModalImg = document.getElementById('mainModalImg');
+    const modalThumbs = document.querySelectorAll('.modal-thumb');
+
+    document.querySelectorAll('.product-img').forEach(img => {
+      img.addEventListener('click', function() {
+        const images = JSON.parse(this.dataset.images || '["' + this.src + '"]');
+        // set main image
+        mainModalImg.src = images[0];
+        // set thumbnails
+        modalThumbs.forEach((thumb, idx) => {
+          thumb.src = images[idx] || images[0];
+          thumb.classList.toggle('selected', idx === 0);
+          thumb.style.display = images[idx] ? '' : 'none';
+          thumb.onclick = () => {
+            mainModalImg.src = images[idx];
+            modalThumbs.forEach((t, i) => t.classList.toggle('selected', i === idx));
+          };
+        });
+        imageModal.style.display = 'flex';
+      });
+    });
+
+    closeImageModal.onclick = () => imageModal.style.display = 'none';
+    imageModal.onclick = e => {
+      if (e.target === imageModal) imageModal.style.display = 'none';
+    };
+
+    // --- ส่วน JavaScript สำหรับ Checkout Modal ---
+    const checkoutModal = document.getElementById('checkoutModal');
+    const closeCheckoutModal = document.getElementById('closeCheckoutModal');
+    const checkoutForm = document.getElementById('checkoutForm');
+    const checkoutSuccess = document.getElementById('checkoutSuccess');
+
+    // เปิด Modal เมื่อกดปุ่ม "ดำเนินการชำระเงิน"
+    document.querySelector('.btn-checkout').addEventListener('click', () => {
+      checkoutForm.style.display = '';
+      checkoutSuccess.style.display = 'none';
+      checkoutForm.reset();
+      checkoutModal.style.display = 'flex';
+    });
+
+    // ปิด Modal
+    closeCheckoutModal.onclick = () => checkoutModal.style.display = 'none';
+    checkoutModal.onclick = e => {
+      if (e.target === checkoutModal) checkoutModal.style.display = 'none';
+    };
+
+    // เมื่อส่งฟอร์ม
+    checkoutForm.onsubmit = function(e) {
+      e.preventDefault();
+      const name = document.getElementById('checkoutName').value.trim();
+      const address = document.getElementById('checkoutAddress').value.trim();
+      const phone = document.getElementById('checkoutPhone').value.trim();
+      checkoutForm.style.display = 'none';
+      checkoutSuccess.innerHTML = `
+        <strong>ขอบคุณสำหรับการสั่งซื้อ!</strong><br>
+        ชื่อ: ${name}<br>
+        ที่อยู่: ${address}<br>
+        เบอร์โทร: ${phone}<br>
+        <br>ทางร้านจะติดต่อกลับเพื่อยืนยันการสั่งซื้อค่ะ
+      `;
+      checkoutSuccess.style.display = '';
+    };
+  </script>
+</body>
+</html>

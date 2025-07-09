@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ติดต่อเรา - ชื่อบริษัทของคุณ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* เพิ่มเอฟเฟกต์ fade-in ทุก section */
+        section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease-out;
+        }
+        section.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ปุ่มกลับหน้า Home แบบว้าว */
+        .back-to-home {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #007bff, #00c6ff);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            animation: pulse 2s infinite;
+        }
+        .back-to-home:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #0056b3, #00a2e8);
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0,123,255,0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(0,123,255,0); }
+            100% { box-shadow: 0 0 0 0 rgba(0,123,255,0); }
+        }
+
+        /* เพิ่มเติมสำหรับ Contact Section */
+        body {
+            font-family: 'Kanit', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .contact-section {
+            padding: 80px 20px;
+            background: #ffffff;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-section::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(0,123,255,0.05);
+            border-radius: 50%;
+            animation: moveShape 15s infinite alternate;
+            z-index: 0;
+        }
+
+        .contact-section::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(0,198,255,0.05);
+            border-radius: 50%;
+            animation: moveShape 12s infinite alternate-reverse;
+            z-index: 0;
+        }
+
+        @keyframes moveShape {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(20px, 20px) scale(1.1); }
+        }
+
+        .contact-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2em;
+            color: #1a2a4b;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+            z-index: 1;
+        }
+
+        .contact-section h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #007bff, #00c6ff);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        .contact-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: left;
+            z-index: 1;
+            position: relative;
+        }
+
+        .contact-item {
+            background: #fdfdfd;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 5px solid transparent;
+            border-image: linear-gradient(45deg, #007bff, #00c6ff) 1;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .contact-item i {
+            font-size: 2.5em;
+            color: #007bff;
+            min-width: 40px;
+            text-align: center;
+        }
+        /* Specific icon colors for social/messaging */
+        .contact-item .fa-line { color: #00B900; } /* LINE green */
+        .contact-item .fa-facebook-messenger { color: #0078FF; } /* Messenger blue */
+
+
+        .contact-item-content h3 {
+            margin-top: 0;
+            font-size: 1.5em;
+            color: #1a2a4b;
+            margin-bottom: 10px;
+        }
+
+        .contact-item-content p, .contact-item-content a {
+            color: #555;
+            font-size: 1.1em;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item-content a:hover {
+            color: #007bff;
+        }
+
+        .contact-item-content address {
+            font-style: normal;
+        }
+
+        .contact-form-section {
+            padding: 80px 20px;
+            background-color: #f0f4f8;
+            text-align: center;
+        }
+
+        .contact-form-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2em;
+            color: #1a2a4b;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .contact-form-section h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #00c6ff, #007bff);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        .contact-form-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: calc(100% - 20px);
+            padding: 12px 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: 'Kanit', sans-serif;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0,123,255,0.2);
+            outline: none;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        button.submit-button {
+            background: linear-gradient(45deg, #007bff, #00c6ff);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0,123,255,0.3);
+            letter-spacing: 0.5px;
+        }
+
+        button.submit-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0,123,255,0.4);
+            background: linear-gradient(45deg, #0056b3, #00a2e8);
+        }
+
+        .google-map {
+            width: 100%;
+            height: 450px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 50px;
+            border: none; /* Remove default iframe border */
+        }
+    </style>
+</head>
+<body>
+    <section class="contact-section">
+        <h2>ติดต่อเรา</h2>
+        <div class="contact-info-grid">
+            <div class="contact-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <div class="contact-item-content">
+                    <h3>ที่อยู่ของเรา</h3>
+                    <p><address>99/99 หมู่ที่ 9, ตำบลนาจอมเทียน, อำเภอสัตหีบ, ชลบุรี 20250</address></p>
+                </div>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-phone-alt"></i>
+                <div class="contact-item-content">
+                    <h3>โทรหาเรา</h3>
+                    <p><a href="tel:+66812345678">+66 (0) 81 234 5678</a></p>
+                    <p><a href="tel:+6629876543">+66 (0) 2 987 6543</a></p>
+                </div>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <div class="contact-item-content">
+                    <h3>ส่งอีเมลถึงเรา</h3>
+                    <p><a href="mailto:info@yourcompany.com">info@yourcompany.com</a></p>
+                    <p><a href="mailto:support@yourcompany.com">support@yourcompany.com</a></p>
+                </div>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-clock"></i>
+                <div class="contact-item-content">
+                    <h3>เวลาทำการ</h3>
+                    <p>จันทร์ - ศุกร์: 9:00 - 18:00 น.</p>
+                    <p>เสาร์: 10:00 - 16:00 น.</p>
+                    <p>อาทิตย์: ปิด</p>
+                </div>
+            </div>
+            <div class="contact-item">
+                <i class="fab fa-line"></i>
+                <div class="contact-item-content">
+                    <h3>LINE Official Account</h3>
+                    <p><a href="https://line.me/ti/p/@your_line_id" target="_blank">@your_line_id</a></p>
+                    <p>สแกน QR Code เพื่อเพิ่มเราเป็นเพื่อน</p>
+                </div>
+            </div>
+            <div class="contact-item">
+                <i class="fab fa-facebook-messenger"></i>
+                <div class="contact-item-content">
+                    <h3>Facebook Messenger</h3>
+                    <p><a href="https://m.me/your_facebook_page_id" target="_blank">m.me/yourcompanypage</a></p>
+                    <p>พูดคุยกับเราได้ทันที</p>
+                </div>
+            </div>
+        </div>
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15549.972323869273!2d100.90802095!3d12.8258384!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3102931a74d4715f%3A0xc4b7264a4d61c6b!2sNa%20Chom%20Thian%2C%20Sattahip%20District%2C%20Chon%20Buri!5e0!3m2!1sen!2sth!4v1700000000000!5m2!1sen!2sth"
+            class="google-map"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </section>
+
+    <section class="contact-form-section">
+        <h2>ส่งข้อความถึงเรา</h2>
+        <div class="contact-form-container">
+            <form action="#" method="POST">
+                <div class="form-group">
+                    <label for="name">ชื่อของคุณ:</label>
+                    <input type="text" id="name" name="name" required placeholder="กรอกชื่อ-นามสกุลของคุณ">
+                </div>
+                <div class="form-group">
+                    <label for="email">อีเมลของคุณ:</label>
+                    <input type="email" id="email" name="email" required placeholder="example@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="subject">หัวข้อ:</label>
+                    <input type="text" id="subject" name="subject" required placeholder="เรื่องที่คุณต้องการติดต่อ">
+                </div>
+                <div class="form-group">
+                    <label for="message">ข้อความ:</label>
+                    <textarea id="message" name="message" required placeholder="กรอกข้อความของคุณที่นี่"></textarea>
+                </div>
+                <button type="submit" class="submit-button">
+                    <i class="fas fa-paper-plane"></i> ส่งข้อความ
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <a href="D:\xibP\index.html" class="back-to-home">
+        <i class="fas fa-home"></i> <span>กลับหน้าหลัก</span>
+    </a>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const sections = document.querySelectorAll("section");
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("show");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            sections.forEach(sec => observer.observe(sec));
+        });
+    </script>
+</body>
+</html>
